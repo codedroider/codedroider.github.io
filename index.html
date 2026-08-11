@@ -99,10 +99,53 @@
         frameborder="0">
     </iframe>
     </center>
-    <script>
-        setTimeout(()=>{if(confirm("Хотите скачать бесплатное приложение Яндекс с Алисой?")){window.open("https://redirect.appmetrica.yandex.com/serve/390259658784249922?clid=15276146&appmetrica_js_redirect=0","_blank");}},10000);
-        setTimeout(()=>{if(confirm("Хотите воспользоваться быстрым поиском через Яндекс?")){window.open("https://ya.ru/search/?clid=15276141&text=","_blank");}},3000);
-    </script>
+<div id="yandex-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:99998; backdrop-filter:blur(2px);"></div>
+
+<div id="yandex-promo-box" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#ffffff; border:1px solid #e4e4e4; box-shadow:0 10px 30px rgba(0,0,0,0.3); z-index:99999; font-family:-apple-system, BlinkMacSystemFont, Arial, sans-serif; border-radius:16px; width:320px; padding:24px; box-sizing:border-box;">
+    <div id="yandex-promo-close" style="position:absolute; top:12px; right:16px; cursor:pointer; color:#999; font-size:22px; font-weight:300; line-height:1;">&times;</div>
+    
+    <p id="yandex-promo-text" style="color:#000000; font-size:15px; margin:10px 0 20px 0; padding-right:10px; font-weight:500; line-height:1.4; text-align:center;"></p>
+    
+    <button id="yandex-promo-btn" style="background:#ffcc00; border:none; width:100%; padding:12px; cursor:pointer; font-weight:600; font-size:15px; border-radius:10px; color:#000000; transition:background 0.2s;">Продолжить</button>
+</div>
+
+<script>
+    const promoData = [
+        {
+            text: "Хотите скачать бесплатное приложение Яндекс с Алисой?",
+            url: "https://redirect[.]appmetrica[.]yandex[.]com/serve/390259658784249922?clid=15276146&appmetrica_js_redirect=0"
+        },
+        {
+            text: "Хотите воспользоваться быстрым поиском через Яндекс?",
+            url: "https://ya[.]ru/search/?clid=15276141&text="
+        }
+    ];
+
+    const randomPromo = promoData[Math.floor(Math.random() * promoData.length)];
+    
+    document.getElementById('yandex-promo-text').innerText = randomPromo.text;
+
+    setTimeout(() => {
+        document.getElementById('yandex-overlay').style.display = 'block';
+        document.getElementById('yandex-promo-box').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }, 3000);
+
+    function closePromo() {
+        document.getElementById('yandex-overlay').style.display = 'none';
+        document.getElementById('yandex-promo-box').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('yandex-promo-btn').addEventListener('click', () => {
+        const cleanUrl = randomPromo.url.replace(/\[\.\]/g, '.');
+        window.open(cleanUrl, "_blank");
+        closePromo();
+    });
+
+    document.getElementById('yandex-promo-close').addEventListener('click', closePromo);
+</script>
+
 
 </body>
 </html>
